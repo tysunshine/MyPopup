@@ -1,0 +1,72 @@
+.my-alert .popup-content {
+	padding: 0;
+	background: #424F63;
+	color: #fff;
+	font-size: 14px;
+}
+.my-alert .msg {
+	margin: 0;
+	padding: 12px 25px;
+	line-height: 24px;
+	text-align: center;
+}
+.my-alert .msg.c {
+	text-align: center;
+}
+.my-alert .msg.l {
+	text-align: left;
+}
+.my-alert .msg.r {
+	text-align: right;
+}
+.my-alert .btn-box {
+	padding: 0 15px 12px;
+	letter-spacing: -5px;
+}
+.my-alert .btn-box.c {
+	text-align: center;
+}
+.my-alert .btn-box.l {
+	text-align: left;
+}
+.my-alert .btn-box.r {
+	text-align: right;
+}
+.my-alert .btn-box button {
+	margin: 5px 5px 0;
+	padding: 0 15px;
+	height: 26px;
+	background: #fff;
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+	line-height: 26px;
+	letter-spacing: 0;
+	color: #333;
+}
+.my-alert .btn-box button:hover {
+	background: #eee;
+}
+.my-alert .btn-box .yes-btn {
+	background: #1E9FFF;
+	color: #fff;
+}
+.my-alert .btn-box .yes-btn:hover {
+	background: #2297EF;
+}
+
+
+.my-alert .state1 {
+	background: #71B69A;
+	border: 1px solid #3E7D6C;
+	border-radius: 10px;
+	box-shadow: 0 0 10px #aaa;
+	color: #fff;
+}
+.my-alert .state2 {
+	background: #EDEECF;
+	border: 2px solid #EDEECF;
+	border-radius: 4px;
+	box-shadow: 0 0 10px #aaa;
+	color: #7B2025;
+}

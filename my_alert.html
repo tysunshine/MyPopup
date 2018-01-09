@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>消息弹框</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+	<link rel="stylesheet" href="./my_popup.css">
+	<link rel="stylesheet" href="./my_alert.css">
+</head>
+<body>
+
+	<button id="btn1">按钮</button>
+	
+	<script src="./my_popup.js"></script>
+	<script src="./my_alert.js"></script>
+	<script>
+		window.onload = function () {
+			var oBtn = document.getElementById('btn1');
+
+			oBtn.onclick = function () {
+				var iNum = 0;
+
+				oMyAlert.show('大家好呀', {
+					bgclose: false,							// 是否可以点击背景关闭对话框（默认false不能）
+					bgcolor: '#999',						// 背景颜色
+					opacity: 0.2,							// 背景透明度
+					msgAlign: 'c',							// 消息文本的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐
+					btnAlign: 'c',							// 按钮的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐
+					aBtnTxt: ['确定', '取消', '关闭'],		// 按钮的个数及其文本
+					btn1: function () {						// btn1对应第一个按钮，btn+n对应第n个按钮的点击事件，如果不设置对应的事件，默认为调用close()关闭弹窗
+						if ( iNum == 0 ) {
+							oMyAlert.changeMsg('我是确定按钮，再点我就要消失了！');
+							iNum = 1;
+						} else {
+							oMyAlert.close();
+						}
+					},
+					btn2: function () {
+						iNum = 0;
+						oMyAlert.changeMsg('我是取消按钮，你点我呀！');
+					},
+					showFn: function () {
+						oMyAlert.addClass('state1');
+					}
+				});
+			}
+		}
+	</script>
+</body>
+</html>

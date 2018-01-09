@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的对话框使用手册</title>
+	<link rel="stylesheet" href="./my_popup.css">
+	<link rel="stylesheet" href="./my_alert.css">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.main {
+			margin: 0 auto;
+			padding: 40px 0;
+			width: 1000px;
+		}
+
+		h2 {
+			margin-bottom: 20px;
+			font-size: 24px;
+			letter-spacing: 3px;
+			text-align: center;
+			line-height: 50px;
+		}
+
+		.synopsis {
+			margin-bottom: 20px;
+		}
+
+		ol {
+			padding: 0 16px;
+		}
+		li {
+			margin-bottom: 20px;
+		}
+		h3 {
+			margin-bottom: 10px;
+			font-weight: normal;
+			font-size: 16px;
+		}
+		p {
+			margin-bottom: 10px;
+		}
+		pre {
+			margin: 10px 0;
+			padding: 2px 2px 2px 8px; 
+			border-left: 3px solid #3C948B; 
+			background: #f1f2f0; 
+			line-height: 1.4;
+			font-size: 16px;
+			white-space: pre-wrap;
+		}
+		button {
+			padding: 0 10px;
+			background: #88CAD6;
+			border: none;
+			border-radius: 3px;
+			outline: medium;
+			cursor: pointer;
+			color: #fff;
+			line-height: 32px;
+		}
+		button:hover {
+			background: #6CA7B2;
+		}
+		table {
+			margin-top: 20px;
+			width: 100%;
+			border: 1px solid #999;
+		}
+		table th {
+			padding: 10px 0;
+			background: #EAFAFC;
+			text-align: center;
+		}
+		table td {
+			padding: 10px;
+		}
+		table td:first-child {
+			width: 160px;
+		}
+		.red {
+			color: red;
+		}
+		.gray {
+			color:gray;
+		}
+
+
+	</style>
+</head>
+<body>
+
+	<div class="main">
+		<h2>我的对话框插件的使用方法</h2>
+		<p class="synopsis"><b>功能说明</b>：对话框插件基于弹窗插件，引入my_alert.js后会在window上绑定一个MyPopup构造函数的oMyAlert实例。该实例有五个方法show、close、chagneMsg、addClass、removeClass。对话框的显隐是使用的添加删除节点的方式，每一次的显示都是一个新的节点，在就节点没有被删除的情况下在调用show方法也不会创建另一个节点。</p>
+
+		<ol>
+			<!-- 对话框1说明 -->
+			<li>
+				<h3>只传文本，最简单的显示方式</h3>
+<pre><code>var oOneShow = document.getElementById('oneShow');
+oOneShow.onclick = function () {
+  oMyAlert.show('我是谁？');
+}
+</code></pre>
+				<button id="oneShow">显示对话框</button>
+				<p class="tip">说明：这一种最简单的显示方式，即不设置按钮，会在1.5秒之后自动关闭对话框。</p>
+			</li>
+
+			<!-- 对话框2说明 -->
+			<li>
+				<h3>配置参数、方法</h3>
+<pre><code>
+var oTwoShow = document.getElementById('twoShow');
+oTwoShow.onclick = function () {
+  var iNum = 0;
+  oMyAlert.show('我是谁？', {
+    bgclose: false,      // 是否可以点击背景关闭对话框（默认false不能）
+    bgcolor: '#999'      // 背景颜色（默认transparent）
+    opacity: 0.2,        // 背景透明度(默认0)
+    msgAlign: 'c',       // 消息文本的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐
+    btnAlign: 'c',       // 按钮的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐
+    aBtnTxt: ['确定', '取消', '关闭'],    // 按钮的个数及其文本（默认无按钮）
+    btn1: function () {  // btn1对应第一个按钮，btn+n对应第n个按钮的点击事件，如果不设置对应的事件，默认为调用close()关闭弹窗
+      if ( iNum == 0 ) {
+        oMyAlert.changeMsg('我是确定按钮，再点我就要消失了！');
+        iNum = 1;
+      } else {
+        oMyAlert.close();
+      }
+    },
+    btn2: function () {
+      iNum = 0;
+      oMyAlert.changeMsg('我是取消按钮，你点我呀！');
+    },
+    showFn: function () {
+      oMyAlert.addClass('state1');
+    }
+  });
+}
+</code></pre>
+				<button id="twoShow">显示对话框</button>
+				<table rules="all">
+					<thead>
+						<tr>
+							<th colspan="2">配置参数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>msg</td>
+							<td>必须。show方法的第一个参数，是将要显示的对话框的文本</td>
+						</tr>
+						<tr>
+							<td>bgclose</td>
+							<td>可选。true，false。是否可以点击背景关闭对话框（默认false不能）</td>
+						</tr>
+						<tr>
+							<td>bgcolor</td>
+							<td>可选。背景颜色（默认transparent）</td>
+						</tr>
+						<tr>
+							<td>opacity</td>
+							<td>可选。背景透明度(默认0)</td>
+						</tr>
+						<tr>
+							<td>msgAlign</td>
+							<td>可选。消息文本的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐</td>
+						</tr>
+						<tr>
+							<td>btnAlign</td>
+							<td>可选。按钮的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐</td>
+						</tr>
+						<tr>
+							<td>aBtnTxt</td>
+							<td>可选。按钮的个数及其文本（默认无按钮）</td>
+						</tr>
+						<tr>
+							<td>btn+n</td>
+							<td>可选。这个是按钮的方法，btn1就是aBtnTxt中第一个按钮的点击方法。如aBtnTxt中的按钮没有对应的btn方法，将默认为点击关闭对话框。</td>
+						</tr>
+						<tr>
+							<td>showFn</td>
+							<td>可选。在弹窗显示之前执行的函数，注意是一个同步函数哈。</td>
+						</tr>
+					</tbody>
+				</table>
+				<table rules="all">
+					<thead>
+						<tr>
+							<th colspan="2">方法</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>show</td>
+							<td>最重要的方法，调用该方法会添加并显示对话框</td>
+						</tr>
+						<tr>
+							<td>close</td>
+							<td>关闭对话框</td>
+						</tr>
+						<tr>
+							<td>changeMsg</td>
+							<td>调用该方法，将改变对话框中的文本</td>
+						</tr>
+						<tr>
+							<td>addClass</td>
+							<td>调用该方法将给弹窗的popup-content添加类名</td>
+						</tr>
+						<tr>
+							<td>removeClass</td>
+							<td>调用该方法将给弹窗的popup-content删除类名</td>
+						</tr>
+					</tbody>
+				</table>
+			</li>
+
+			<!-- 对话框3说明 -->
+			<li>
+				<h3>可以根据自己的需求改变默认的弹窗样式，或者是设置多种样式然后在显示的时候决定用那种样式。</h3>
+<pre><code><span class="gray">// my_alert.css文件第一行，这是对话框默认样式</span>
+.my-alert .popup-content {
+  padding: 0;
+  background: #424F63;
+  color: #fff;
+  font-size: 14px;
+}
+</code></pre>
+<pre><code><span class="gray">// my_alert.css，要自定义弹窗样式可以在my_alert.css文件最下面这样写</span>
+.my-alert .state1 {
+  background: #71B69A;
+  border: 1px solid #3E7D6C;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #aaa;
+  color: #fff;
+}
+.my-alert .state2 {
+  background: #EDEECF;
+  border: 2px solid #EDEECF;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #aaa;
+  color: #7B2025;
+}
+</code></pre>
+<pre><code>&lt;button id="threeShow1">默认样式&lt;/button&gt;
+&lt;button id="threeShow2"&gt;样式一&lt;/button&gt;
+&lt;button id="threeShow3"&gt;样式二&lt;/button&gt;
+
+********************************************************
+
+var oThreeShow1 = document.getElementById('threeShow1');
+var oThreeShow2 = document.getElementById('threeShow2');
+var oThreeShow3 = document.getElementById('threeShow3');
+
+oThreeShow1.onclick = function () {
+  oMyAlert.show('我是默认样式，我有按钮', {
+    bgcolor: '#999',
+    opacity: 0.2,
+    aBtnTxt: ['确定']
+  })
+}
+
+oThreeShow2.onclick = function () {
+  oMyAlert.show('我是样式一，我没有按钮，我会在1.5秒后消失', {
+    bgcolor: '#ccc',
+    opacity: 0.4,
+    showFn: function () {
+      oMyAlert.addClass('state1');
+    }
+  })
+}
+
+var i;
+var arr = ['改变1', '改变2']
+oThreeShow3.onclick = function () {
+  i = 0;
+  oMyAlert.show('我是样式二，我有按钮，点击关闭我才会消失', {
+    bgcolor: 'green',
+    opacity: 0.2,
+    aBtnTxt: ['改变文本', '样式一', '关闭'],
+    btn1: function () {
+      oMyAlert.changeMsg(arr[i++]);
+      i = i >= arr.length ? 0 : i;
+    },
+    btn2: function () {
+      oMyAlert.removeClass('state2');
+      oMyAlert.addClass('state1');
+    },
+    showFn: function () {
+      oMyAlert.addClass('state2');
+    }
+  })
+}
+</code></pre>
+				<button id="threeShow1">默认样式</button>
+				<button id="threeShow2">样式一</button>
+				<button id="threeShow3">样式二</button>
+			</li>
+		</ol>
+	</div>
+	
+	<script src="./my_popup.js"></script>
+	<script src="./my_alert.js"></script>
+	<script>
+		window.onload = function () {
+
+			// 对话框1js
+			var oOneShow = document.getElementById('oneShow');
+			oOneShow.onclick = function () {
+				oMyAlert.show('我是谁？');
+			}
+
+			// 对话框2js
+			var oTwoShow = document.getElementById('twoShow');
+			oTwoShow.onclick = function () {
+				var iNum = 0;
+				oMyAlert.show('我是谁？', {
+					bgclose: false,							// 是否可以点击背景关闭对话框（默认false不能）
+					bgcolor: '#999',						// 背景颜色（默认transparent）
+					opacity: 0.2,							// 背景透明度(默认0)
+					msgAlign: 'c',							// 消息文本的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐
+					btnAlign: 'c',							// 按钮的对齐方式：l -> 左对齐；c -> 居中对齐（默认）；r -> 右对齐
+					aBtnTxt: ['确定', '取消', '关闭'],		// 按钮的个数及其文本（默认无按钮）
+					btn1: function () {						// btn1对应第一个按钮，btn+n对应第n个按钮的点击事件，如果不设置对应的事件，默认为调用close()关闭弹窗
+						if ( iNum == 0 ) {
+							oMyAlert.changeMsg('我是确定按钮，再点我就要消失了！');
+							iNum = 1;
+						} else {
+							oMyAlert.close();
+						}
+					},
+					btn2: function () {
+						iNum = 0;
+						oMyAlert.changeMsg('我是取消按钮，你点我呀！');
+					},
+					showFn: function () {
+						oMyAlert.addClass('state1');
+					}
+				});
+			}
+
+			// 对话框3js
+			var oThreeShow1 = document.getElementById('threeShow1');
+			var oThreeShow2 = document.getElementById('threeShow2');
+			var oThreeShow3 = document.getElementById('threeShow3');
+
+			oThreeShow1.onclick = function () {
+				oMyAlert.show('我是默认样式，我有按钮', {
+					bgcolor: '#999',
+					opacity: 0.2,
+					aBtnTxt: ['确定']
+				})
+			}
+
+			oThreeShow2.onclick = function () {
+				oMyAlert.show('我是样式一，我没有按钮，我会在1.5秒后消失', {
+					bgcolor: '#ccc',
+					opacity: 0.4,
+					showFn: function () {
+						oMyAlert.addClass('state1');
+					}
+				})
+			}
+
+			var i;
+			var arr = ['改变1', '改变2']
+			oThreeShow3.onclick = function () {
+				i = 0;
+				oMyAlert.show('我是样式二，我有按钮，点击关闭我才会消失', {
+					bgcolor: 'green',
+					opacity: 0.2,
+					aBtnTxt: ['改变文本', '样式一', '关闭'],
+					btn1: function () {
+						oMyAlert.changeMsg(arr[i++]);
+						i = i >= arr.length ? 0 : i;
+					},
+					btn2: function () {
+						oMyAlert.removeClass('state2');
+						oMyAlert.addClass('state1');
+					},
+					showFn: function () {
+						oMyAlert.addClass('state2');
+					}
+				})
+			}
+		}
+	</script>
+</body>
+</html>

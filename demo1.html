@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>弹窗</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<script>
+		(function(doc, win) {
+			var html = doc.getElementsByTagName("html")[0],
+			// orientationchange->手机屏幕转屏事件
+			// resize->页面大小改变事件(一边pc端有用)
+				reEvt = "orientationchange" in win ? "orientationchange" : "resize",
+				reFontSize = function() {
+					var clientW = doc.documentElement.clientWidth || doc.body.clientWidth;
+					if(!clientW) {
+						return;
+					}
+					html.style.fontSize = 100 * (clientW / 375) + "px";
+			}
+			win.addEventListener(reEvt, reFontSize);
+			// DOMContentLoaded->dom加载完就执行,onload要dom/css/js都加载完才执行
+			doc.addEventListener("DOMContentLoaded", reFontSize);
+		})(document, window);
+	</script>
+	<link rel="stylesheet" href="my_popup.css">
+	<style>
+	* {
+		padding: 0;
+		margin: 0;
+	}
+	body {
+		font-size: 15px;
+	}
+	.box {
+		width: 200px;
+		height: 2000px;
+		background: #cc0;
+
+		margin: 0 auto;
+	}
+	.btn1 {
+		position: absolute;
+		top: 800px;
+		left: 20px;
+	}
+	
+	.popup-content {
+		display: none;
+	}
+	.popup-content h2, .popup-content hr, .popup-content p {
+		margin-bottom: 10px;
+	}
+	</style>
+</head>
+<body>
+	<button class="btn1 popup-show" data-linked-id="myPopup">出来吧</button>
+
+	<button id="btn-one">我是一个普通按钮</button>
+	<div class="box"></div>
+	
+	<div class="my-popup" id="myPopup">
+		<div class="popup-content">
+			<h2>注册信息</h2>
+			<p>
+				<label for="name">姓小名：</label>
+				<input type="text" id="name">
+			</p>
+			<p>
+				<label for="school">学校：</label>
+				<input type="text" id="school">
+			</p>
+			<p>
+				<label for="studentno">学号：</label>
+				<input type="text" id="studentno">
+			</p>
+			<p id="msg"></p>
+			<hr>
+			<button class="popup-close" data-linked-id="myPopup">关闭</button>
+			<button id="btn2">修改</button>
+		</div>
+	</div>
+	
+	<script src="my_popup.js"></script>
+	<script>
+
+		window.onload = function () {
+			var oBtnOne = document.getElementById("btn-one");
+			var oBtnTwo = document.getElementById('btn2');
+			var oMsg = document.getElementById('msg');
+
+			var myPopup = new MyPopup('myPopup', {
+				param: {
+					isfixed: false,						// 弹窗是否固定居中（默认true可以） 值：true、false
+					bgclose: false,						// 可否通过点击背景关闭弹窗 （默认true可以） 值：true、false
+					type: 'none',					// 弹窗出现的方式（默认none无动画） 值：none、opacity、top、right、bottom、left
+					time: 400,							// 弹窗出现动画的时长（默认200ms）
+					bgcolor: '#000',					// 背景颜色（默认transparent）
+					opacity: 0.2 						// 背景透明度（默认0）
+				},
+				showFn: function () {
+					console.log('弹窗出现之前执行的同步函数');
+				},
+				closeFn: function () {
+					console.log('弹窗关闭之前执行的同步函数');
+				}
+			})
+
+			oBtnOne.onclick = function () {
+				myPopup.show(null, {top:100, left:100});
+			}
+
+			var i = 0;
+			var arr = ['月照纱窗，个个孔明诸葛亮；风送花圃，阵阵畹华梅兰芳。', '望江楼，望江流，望江楼下望江流，江楼千古，江流千古；印月井，印月影，印月井中印月影，月井万年，月影万年。']
+			oBtnTwo.onclick = function () {
+				if ( i == 0 ) {
+					oMsg.innerHTML = arr[0];
+					i = 1;
+				} else {
+					oMsg.innerHTML = arr[1];
+					i = 0;
+				}
+			}
+		}
+	</script>
+</body>
+</html>

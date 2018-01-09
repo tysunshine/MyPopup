@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>我的弹窗使用手册</title>
+		<link rel="stylesheet" href="./my_popup.css">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			.main {
+				margin: 0 auto;
+				padding: 40px 0;
+				width: 1000px;
+			}
+
+			h2 {
+				margin-bottom: 20px;
+				font-size: 24px;
+				letter-spacing: 3px;
+				text-align: center;
+				line-height: 50px;
+			}
+
+			.synopsis {
+				margin-bottom: 20px;
+			}
+
+			ol {
+				padding: 0 16px;
+			}
+			li {
+				margin-bottom: 20px;
+			}
+			h3 {
+				margin-bottom: 10px;
+				font-weight: normal;
+				font-size: 16px;
+			}
+			p {
+				margin-bottom: 10px;
+			}
+			pre {
+				margin: 10px 0;
+				padding: 2px 2px 2px 8px; 
+				border-left: 3px solid #3C948B; 
+				background: #f1f2f0; 
+				line-height: 1.4;
+				font-size: 16px;
+				white-space: pre-wrap;
+			}
+			button {
+				padding: 0 10px;
+				background: #88CAD6;
+				border: none;
+				border-radius: 3px;
+				outline: medium;
+				cursor: pointer;
+				color: #fff;
+				line-height: 32px;
+			}
+			button:hover {
+				background: #6CA7B2;
+			}
+			.tip {
+				margin-top: 10px;
+			}
+			.red1 {
+				color: red;
+			}
+			.red2 {
+				color: #D36C39;
+			}
+
+			.two-popup .msg {
+				line-height: 50px;
+			}
+			table {
+				margin-top: 20px;
+				width: 100%;
+				border: 1px solid #999;
+			}
+			table th {
+				padding: 10px 0;
+				background: #EAFAFC;
+				text-align: center;
+			}
+			table td {
+				padding: 10px;
+			}
+			table td:first-child {
+				width: 160px;
+			}
+
+			.three-popup .popup-content {
+				padding: 40px 10px;
+				width: 200px;
+				border-radius: 5px;
+				line-height: 24px;
+			}
+			.four-popup .popup-content {
+				padding: 40px 10px 20px;
+				width: 200px;
+				border-radius: 5px;
+				line-height: 24px;
+			}
+			li:nth-child(4) p:nth-of-type(2){
+				margin-top: 10px;
+			}
+			.four-popup .popup-content p {
+				margin-bottom: 20px;
+			}
+
+			.five-popup .popup-content {
+				padding: 40px 10px 20px;
+				width: 200px;
+				border-radius: 5px;
+				line-height: 24px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="main">
+			<h2>我的弹窗插件的使用方法</h2>
+			<p class="synopsis"><b>功能说明</b>：这个弹窗插件，主要实现的是弹窗的一些基本功能，如遮罩层：背景颜色、透明度、是否可以点击遮罩关闭弹窗；显示、关闭弹窗的按钮；弹窗显示、关闭的动画方式、动画时间；弹窗是否跟随页面滚动；弹窗在跟随页面滚动是出现的位置；一个弹窗中切换多种内容；支持手机模式；可以一个页面定义多个弹窗；ie8及以上支持（ie8目前不支持动画效果）。<span class="red2">注：红色的类名my-popup、popup-content是必须有的，使用类名加自定义属性绑定显隐事件时，popup-show、popup-close与data-linked-id也是必须有的。</span></p>
+			<ol>
+				<!-- 弹窗1的说明 -->
+				<li>
+					<h3>最简单的使用方式</h2>
+					<div class="content">
+
+<pre><code>&lt;div class="<span class="red1">my-popup</span> one-popup" id="onePopup"&gt;
+  &lt;div class="<span class="red1">popup-content</span>"&gt;
+    &lt;p class="msg"&gt;我是一个弹窗，点击透明遮罩层我就会隐藏&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+****************************************
+
+var oOnePopup = new MyPopup('onePopup');
+</code></pre>
+
+						<button class="popup-show" data-linked-id="onePopup">显示弹窗</button>
+
+						<p class="tip">说明：该插件必须传的参数是id，它的默认配置是：固定定位、点击背景关闭、无动画、背景transparent、透明度0</p>
+					</div>
+				</li>
+	
+				<!-- 弹窗2的说明 -->
+				<li>
+					<h3>弹窗的配置参数与方法</h3>
+					<div class="content">
+
+<pre><code>&lt;div class="<span class="red1">my-popup</span> two-popup" id="twoPopup"&gt;
+  &lt;div class="<span class="red1">popup-content</span>"&gt;
+    &lt;p class="msg"&gt;我是弹窗2&lt;/p&gt;
+    &lt;div class="btn-box"&gt;
+      &lt;button&gt;我使用close()方法方式&lt;/button&gt;
+      &lt;button class="<span class="red1">popup-close</span>" <span class="red1">data-linked-id</span>="twoPopup"&gt;我使用类名加上data-lined-id属性方式&lt;/button&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+*****************************************
+
+var oTwoPopup = new MyPopup('twoPopup', {
+  param: {
+    isfixed: false,	// 弹窗是否固定居中（默认true可以） 值：true、false
+    bgclose: false,	// 可否通过点击背景关闭弹窗 （默认true可以） 值：true、false
+    type: 'top',	// 弹窗出现的方式（默认none无动画） 值：none、opacity、top、right、bottom、left
+    time: 400,		// 弹窗出现动画的时长（默认200ms）
+    bgcolor: '#777',// 背景颜色（默认transparent）
+    opacity: 0.2 	// 背景透明度（默认0）
+  },
+  show: function () {
+	console.log("这是显示弹窗前调用的函数");
+  },
+  close: function () {
+	console.log("这是默认的关闭弹窗前调用的函数");
+  }
+});
+</code></pre>
+
+						<button class="popup-show" data-linked-id="twoPopup">使用popup-show与data-lined-id的显示按钮</button>	
+						<button id="twoShow">使用show()方法显示弹窗</button>
+
+						<table rules="all">
+							<thead>
+								<tr>
+									<th colspan="2">配置参数</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>isfixed</td>
+									<td>弹窗是否固定居中（默认true可以） 值：true、false</td>
+								</tr>
+								<tr>
+									<td>bgclose</td>
+									<td>可否通过点击背景关闭弹窗 （默认true可以） 值：true、false</td>
+								</tr>
+								<tr>
+									<td>type</td>
+									<td>弹窗出现的方式（默认none无动画） 值：none、opacity、top、right、bottom、left</td>
+								</tr>
+								<tr>
+									<td>time</td>
+									<td>弹窗出现动画的时长（默认200ms）</td>
+								</tr>
+								<tr>
+									<td>bgcolor</td>
+									<td>背景颜色（默认transparent）</td>
+								</tr>
+								<tr>
+									<td>opacity</td>
+									<td>背景透明度（默认0）</td>
+								</tr>
+								<tr>
+									<td>showFn</td>
+									<td>默认在弹窗弹出前执行的函数，如果是异步函数，有可能弹窗已经出现了，异步函数还没执行完。如果要使用异步函数，最好使用show()方法。这个在配置中的showFn方法，是显示弹窗时的默认方法，如果使用show()方法的时候传了函数进来，就不会执行该方法了，只会执行show()传入的方法。</td>
+								</tr>
+								<tr>
+									<td>closeFn</td>
+									<td>默认在弹窗隐藏前执行的函数，如果是异步函数，有可能弹窗已经隐藏了，异步函数还没执行完。如果要使用异步函数，最好使用close()方法。close()传函数时同show()</td>
+								</tr>
+							</tbody>
+						</table>
+						<table rules="all">
+							<thead>
+								<tr>
+									<th colspan="2">方法</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>show()</td>
+									<td>使用该方法，可以使处于隐藏状态的弹窗显示出来（在创建了对应的弹窗对象之后）</td>
+								</tr>
+								<tr>
+									<td>close()</td>
+									<td>使用该方法，可以使处于显示状态的弹窗隐藏起来（在创建了对应的弹窗对象之后）</td>
+								</tr>
+								<tr>
+									<td>content()</td>
+									<td>在一个弹窗中有多个popup-content时，该方法才有作用。该方法可以按传入的iNum显示对应的popup-content</td>
+								</tr>
+							</tbody>
+						</table>
+						<table rules="all">
+							<thead>
+								<tr>
+									<th colspan="2">show()方法参数</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>fn</td>
+									<td>可选。函数，弹窗显示前需要执行的参数。</td>
+								</tr>
+								<tr>
+									<td>oPos</td>
+									<td>可选。对象，在isfixed为false的情况下有效，即弹窗出现时相对于上于左的定位距离。有top，left两个属性</td>
+								</tr>
+							</tbody>
+						</table>
+						<table rules="all">
+							<thead>
+								<tr>
+									<th colspan="2">close()方法参数</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>fn</td>
+									<td>可选。函数，弹窗隐藏前需要执行的参数。</td>
+								</tr>
+							</tbody>
+						</table>
+						<table rules="all">
+							<thead>
+								<tr>
+									<th colspan="2">content()方法参数</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>iNum</td>
+									<td>必填。整数，0到n，传入同一个弹窗下的popup-content的下标。</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</li>
+
+				<!-- 弹窗3说明 -->
+				<li>
+					<h3>随页面滚动的弹窗</h3>
+					<div class="content">
+<pre><code>&lt;div class="<span class="red1">my-popup</span> three-popup" id="threePopup"&gt;
+  &lt;div class="<span class="red1">popup-content</span>"&gt;
+    &lt;p class="msg"&gt;我是一个弹窗，点击透明遮罩层我就会隐藏&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+******************************************************
+
+var oThreeShow = document.getElementById('threeShow');
+var oThreePopup = new MyPopup('threePopup', {
+  param: {
+    isfixed: false,
+    bgcolor: '#917C77',
+    opacity: 0.2
+  }
+});
+oThreeShow.onclick = function () {
+	oThreePopup.show(null, {top: 200, left: 100});
+}
+</code></pre>
+						<button class="popup-show" data-linked-id="threePopup">使用popup-show与data-lined-id的显示按钮</button>
+						<button id="threeShow">使弹窗出现在当前页面固定坐标(100, 200)</button>
+					</div>
+				</li>
+
+				<!-- 弹窗4说明 -->
+				<li>
+					<h3>显示与关闭弹窗的两种方法</h3>
+<pre><code>&lt;div class="<span class="red1">my-popup</span> four-popup" id="fourPopup"&gt;
+  &lt;div class="<span class="red1">popup-content</span>"&gt;
+    &lt;p class="msg"&gt;我是一个弹窗，点击透明遮罩层我就会隐藏&lt;/p&gt;
+    &lt;div class="btn-box"&gt;
+      &lt;button class="<span class="red1">popup-close</span>" <span class="red1">data-linked-id</span>="fourPopup"&gt;关闭方法一&lt;/button&gt;
+      &lt;button id="fourClose"&gt;关闭方法二&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+*****************************************************
+	
+var oFourShow = document.getElementById('fourShow');
+var oFourClose = document.getElementById('fourClose');
+var oFourPopup = new MyPopup('fourPopup', {
+  param: {
+    bgcolor: '#999',
+    opacity: 0.2
+  }
+});
+oFourShow.onclick = function () {
+  oFourPopup.show();
+}
+oFourClose.onclick = function () {
+  oFourPopup.close();
+}
+</code></pre>
+					<p>方法一：使用指定的类名（popup-show、popup-close）及一个搭配的自定义属性（data-linked-id）实现弹窗的显隐。</p>
+					<button class="popup-show" data-linked-id="fourPopup">显示方法一</button>
+					<p>方法二：调用弹窗对象的show()、close()方法，实现对弹窗的显隐。如给一个按钮绑定点击事件，在点击事件中调用方法。</p>
+					<button id="fourShow">显示方法二</button>
+				</li>
+	
+				<!-- 弹窗5说明 -->
+				<li>
+					<h3>一个弹窗中切换多种内容</h3>
+<pre><code>&lt;div class="<span class="red1">my-popup</span> five-popup" id="fivePopup"&gt;
+  &lt;div class="<span class="red1">popup-content</span>"&gt;
+    &lt;p class="msg"&gt;one&lt;/p&gt;
+    &lt;button id="fiveOneBtn"&gt;下一步&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="<span class="red1">popup-content</span>"&gt;
+    &lt;p class="msg"&gt;two&lt;/p&gt;
+    &lt;button id="fiveTwoBtn"&gt;下一步&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="<span class="red1">popup-content</span>"&gt;
+    &lt;p class="msg"&gt;three&lt;/p&gt;
+    &lt;button id="fiveThreeBtn"&gt;完成&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+******************************************************************
+
+var oFiveBtn1 = document.getElementById('fiveOneBtn');
+var oFiveBtn2 = document.getElementById('fiveTwoBtn');
+var oFiveBtn3 = document.getElementById('fiveThreeBtn');
+var oFivePopup = new MyPopup('fivePopup', {
+  param: {
+    bgcolor: '#999',
+    opacity: 0.2,
+    time: 200,
+    type: 'opacity'
+  },
+  showFn: function () {
+    oFivePopup.content(0);
+  }
+})
+oFiveBtn1.onclick = function () {
+  oFivePopup.content(1);
+}
+oFiveBtn2.onclick = function () {
+  oFivePopup.content(2);
+}
+oFiveBtn3.onclick = function () {
+  oFivePopup.close();
+}
+</code></pre>
+					<button class="popup-show" data-linked-id="fivePopup">显示弹窗</button>
+					<p class="tip">说明：在有多个popup-content的时候可以通过MyPopup.content(iNum)方法来决定显示哪一个popup-content。iNum是从0开始的popup-content的顺序数。</p>
+				</li>
+				
+				<li>
+					<h3>使用我的弹窗插件可以实现其它的自定义插件，如我的对话框插件</h3>
+					<a href="./my_alert.html">我的对话框</a>
+				</li>
+			</ol>
+		</div>
+		
+	<!-- 弹窗1的html -->
+	<div class="my-popup one-popup" id="onePopup">
+		<div class="popup-content">
+			<p class="msg">我是一个弹窗，点击透明遮罩层我就会隐藏</p>
+		</div>
+	</div>
+
+	<!-- 弹窗2的html -->
+	<div class="my-popup two-popup" id="twoPopup">
+		<div class="popup-content">
+			<p class="msg">我是弹窗2</p>
+			<div class="btn-box">
+				<button id="twoClose">我使用close()方法方式</button>
+				<button class="popup-close" data-linked-id="twoPopup">我使用类名加上data-lined-id属性方式</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 弹窗3的html -->
+	<div class="my-popup three-popup" id="threePopup">
+		<div class="popup-content">
+			<p class="msg">我是一个弹窗，点击透明遮罩层我就会隐藏</p>
+		</div>
+	</div>
+
+	<!-- 弹窗4的html -->
+	<div class="my-popup four-popup" id="fourPopup">
+		<div class="popup-content">
+			<p class="msg">我是一个弹窗，点击透明遮罩层我就会隐藏</p>
+			<div class="btn-box">
+				<button class="popup-close" data-linked-id="fourPopup">关闭方法一</button>
+				<button id="fourClose">关闭方法二</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 弹窗5的html -->
+	<div class="my-popup five-popup" id="fivePopup">
+		<div class="popup-content">
+			<p class="msg">one</p>
+			<button id="fiveOneBtn">下一步</button>
+		</div>
+		<div class="popup-content">
+			<p class="msg">two</p>
+			<button id="fiveTwoBtn">下一步</button>
+		</div>
+		<div class="popup-content">
+			<p class="msg">three</p>
+			<button id="fiveThreeBtn">完成</button>
+		</div>
+	</div>
+
+	<script src="./my_popup.js"></script>
+	<script>
+	
+		window.onload = function () {
+
+			// 弹窗1的js
+			var oOnePopup = new MyPopup('onePopup');
+
+			// 弹窗2的js
+			var oTwoShow = document.getElementById('twoShow');
+			var oTwoClose = document.getElementById('twoClose');
+			var oTwoPopup = new MyPopup('twoPopup', {
+				param: {
+					isfixed: false,						// 弹窗是否固定居中（默认true可以） 值：true、false
+					bgclose: false,						// 可否通过点击背景关闭弹窗 （默认true可以） 值：true、false
+					type: 'top',						// 弹窗出现的方式（默认none无动画） 值：none、opacity、top、right、bottom、left
+					time: 400,							// 弹窗出现动画的时长（默认200ms）
+					bgcolor: '#777',					// 背景颜色（默认transparent）
+					opacity: 0.2 						// 背景透明度（默认0）
+				},
+				show: function () {
+					console.log("这是显示弹窗前调用的函数");
+				},
+				close: function () {
+					console.log("这是默认的关闭弹窗前调用的函数");
+				}
+			});
+			oTwoShow.onclick = function () {
+				oTwoPopup.show(function () {
+					console.log("我是使用close方法显示的");
+				});
+			}
+			oTwoClose.onclick = function () {
+				oTwoPopup.close(function () {
+					console.log("我是使用close方法关闭的");
+				});
+			}
+
+			// 弹窗3的js
+			var oThreeShow = document.getElementById('threeShow');
+			var oThreePopup = new MyPopup('threePopup', {
+				param: {
+					isfixed: false,
+					bgcolor: '#917C77',
+					opacity: 0.2
+				}
+			});
+			oThreeShow.onclick = function () {
+				oThreePopup.show(null, {top: 200, left: 100});
+			}
+
+			// 弹窗4的js
+			var oFourShow = document.getElementById('fourShow');
+			var oFourClose = document.getElementById('fourClose');
+			var oFourPopup = new MyPopup('fourPopup', {
+				param: {
+					bgcolor: '#999',
+					opacity: 0.2
+				}
+			});
+			oFourShow.onclick = function () {
+				oFourPopup.show();
+			}
+			oFourClose.onclick = function () {
+				oFourPopup.close();
+			}
+
+			// 弹窗5的js
+			var oFiveBtn1 = document.getElementById('fiveOneBtn');
+			var oFiveBtn2 = document.getElementById('fiveTwoBtn');
+			var oFiveBtn3 = document.getElementById('fiveThreeBtn');
+			var oFivePopup = new MyPopup('fivePopup', {
+				param: {
+					bgcolor: '#999',
+					opacity: 0.2,
+					time: 200,
+					type: 'opacity'
+				},
+				showFn: function () {
+					oFivePopup.content(0);
+				}
+			})
+			oFiveBtn1.onclick = function () {
+				oFivePopup.content(1);
+			}
+			oFiveBtn2.onclick = function () {
+				oFivePopup.content(2);
+			}
+			oFiveBtn3.onclick = function () {
+				oFivePopup.close();
+			}
+		}
+	</script>
+	</body>
+</html>
